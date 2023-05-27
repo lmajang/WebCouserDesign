@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/WebCouserDesign.iml" filepath="$PROJECT_DIR$/.idea/WebCouserDesign.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WebDesign/WebDesign.iml" filepath="$PROJECT_DIR$/WebDesign/WebDesign.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test.iml" filepath="$PROJECT_DIR$/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webfront.iml" filepath="$PROJECT_DIR$/webfront.iml" />
+    </modules>
+  </component>
+</project>
