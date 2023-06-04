@@ -2,78 +2,81 @@
   <el-form
       :model="ruleForm"
       :rules="rules"
+      label-position="top"
       label-width="120px"
-      class="demo-ruleForm"
+      class="demo-ruleForm Healthy-form"
       :size="formSize"
       status-icon
   >
-    <el-form-item label="Activity name" prop="name">
-      <el-input v-model="ruleForm.name" />
+<!--个人信息-->
+
+    <el-form-item label="姓名" prop="name"><!--个人信息，包括姓名、身份证号、工号或学号、手机号，-->
+      <el-input v-model="ruleForm.name" disabled/>
     </el-form-item>
-    <el-form-item label="Activity zone" prop="region">
-      <el-select v-model="ruleForm.region" placeholder="Activity zone">
-        <el-option label="Zone one" value="shanghai" />
-        <el-option label="Zone two" value="beijing" />
-      </el-select>
+    <el-form-item label="身份证号" prop="idCard">
+      <el-input v-model="ruleForm.idCard" disabled/>
     </el-form-item>
-    <el-form-item label="Activity count" prop="count">
-      <el-select-v2
-          v-model="ruleForm.count"
-          placeholder="Activity count"
-          :options="options"
-      />
+    <el-form-item label="工号或学号" prop="number">
+      <el-input v-model="ruleForm.number" disabled/>
     </el-form-item>
-    <el-form-item label="Activity time" required>
-      <el-col :span="11">
-        <el-form-item prop="date1">
-          <el-date-picker
-              v-model="ruleForm.date1"
-              type="date"
-              label="Pick a date"
-              placeholder="Pick a date"
-              style="width: 100%"
-          />
-        </el-form-item>
-      </el-col>
-      <el-col class="text-center" :span="2">
-        <span class="text-gray-500">-</span>
-      </el-col>
-      <el-col :span="11">
-        <el-form-item prop="date2">
-          <el-time-picker
-              v-model="ruleForm.date2"
-              label="Pick a time"
-              placeholder="Pick a time"
-              style="width: 100%"
-          />
-        </el-form-item>
-      </el-col>
+    <el-form-item label="手机号" prop="pnumber">
+      <el-input v-model="ruleForm.pnumber" />
     </el-form-item>
-    <el-form-item label="Instant delivery" prop="delivery">
-      <el-switch v-model="ruleForm.delivery" />
-    </el-form-item>
-    <el-form-item label="Activity type" prop="type">
-      <el-checkbox-group v-model="ruleForm.type">
-        <el-checkbox label="Online activities" name="type" />
-        <el-checkbox label="Promotion activities" name="type" />
-        <el-checkbox label="Offline activities" name="type" />
-        <el-checkbox label="Simple brand exposure" name="type" />
-      </el-checkbox-group>
-    </el-form-item>
-    <el-form-item label="Resources" prop="resource">
-      <el-radio-group v-model="ruleForm.resource">
-        <el-radio label="Sponsorship" />
-        <el-radio label="Venue" />
+
+    <el-form-item label="本人近期（14天内）是否去过重点疫区" prop="goAffect" >
+      <el-radio-group v-model="ruleForm.goAffect">
+        <el-radio label="1" name="type" >是</el-radio>
+        <el-radio label="0" name="type" >否</el-radio>
       </el-radio-group>
     </el-form-item>
-    <el-form-item label="Activity form" prop="desc">
-      <el-input v-model="ruleForm.desc" type="textarea" />
+    <el-form-item label="本人近期（14天内）是否去过国外？" prop="goAbroad">
+      <el-radio-group v-model="ruleForm.goAbroad">
+        <el-radio label="1" name="type" >是</el-radio>
+        <el-radio label="0" name="type" >否</el-radio>
+      </el-radio-group>
+    </el-form-item>
+    <el-form-item label="本人近期（14天内）是否接触过新冠确诊病人或疑似病人" prop="isContact" >
+      <el-radio-group v-model="ruleForm.isContact">
+        <el-radio label="1" name="type" >是</el-radio>
+        <el-radio label="0" name="type" >否</el-radio>
+      </el-radio-group>
+    </el-form-item>
+    <el-form-item label="本人是否被卫生部门确认为新冠肺炎确诊病例或疑似病例" prop="isSicken" >
+      <el-radio-group v-model="ruleForm.isSicken">
+        <el-radio label="1" name="type" >是</el-radio>
+        <el-radio label="0" name="type" >否</el-radio>
+      </el-radio-group>
+    </el-form-item>
+    <el-form-item label="本人是否打过新冠疫苗" prop="isInjection" >
+      <el-radio-group v-model="ruleForm.isInjection">
+        <el-radio label="0"  >未打过</el-radio>
+        <el-radio label="1"  >已打1针</el-radio>
+        <el-radio label="2"  >已打2针</el-radio>
+        <el-radio label="3"  >已打3针</el-radio>
+      </el-radio-group>
+    </el-form-item>
+    <el-form-item label="当前健康状况" prop="isHealthy" >
+      <el-radio-group v-model="ruleForm.isHealthy">
+        <el-radio label="1" name="type" value="1">无异常</el-radio>
+        <el-radio label="0" name="type" value="0">异常</el-radio>
+      </el-radio-group>
+    </el-form-item>
+    <el-form-item v-if="ruleForm.isHealthy==='0'" label="症状" prop="healthy" >
+      <el-checkbox-group v-model="ruleForm.healthyCondition">
+        <el-checkbox label="0" >发烧（≥37.3℃）</el-checkbox>
+        <el-checkbox label="1" >乏力</el-checkbox>
+        <el-checkbox label="2" >干咳</el-checkbox>
+        <el-checkbox label="3" >鼻塞</el-checkbox>
+        <el-checkbox label="4" >流涕</el-checkbox>
+        <el-checkbox label="5" >咽痛</el-checkbox>
+        <el-checkbox label="6" >腹泻</el-checkbox>
+      </el-checkbox-group>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(ruleFormRef)">
-        Create
+        提交
       </el-button>
-      <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
+      <el-button @click="resetForm(ruleFormRef)">重置</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -85,15 +88,17 @@ import type { FormInstance, FormRules } from 'element-plus'
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
-  name: 'Hello',
-  region: '',
-  count: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
+  name: '1',
+  idCard: '1',
+  number: '1',
+  pnumber: '',
+  goAffect:'',
+  goAbroad:'',
+  isContact:'',
+  isSicken:'',
+  isInjection:'',
+  isHealthy:'',
+  healthyCondition:[],
 })
 
 const rules = reactive<FormRules>({
@@ -178,5 +183,10 @@ const options = Array.from({ length: 10000 }).map((_, idx) => ({
 </script>
 
 <style scoped>
-
+.Healthy-form{
+  padding:15px;
+}
+.el-input{
+  width:50%;
+}
 </style>

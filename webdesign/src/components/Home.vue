@@ -68,7 +68,7 @@
           <i class="el-icon-menu"></i>
           <span slot="title">信息管理</span>
         </el-menu-item>
-        <el-menu-item index="/applicationFor">
+        <el-menu-item index="/applicationForm">
           <i class="el-icon-setting"></i>
           <span slot="title">健康码申报</span>
         </el-menu-item>

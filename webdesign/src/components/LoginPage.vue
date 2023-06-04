@@ -35,7 +35,6 @@
 <script>
 import {Lock,UserFilled} from "@element-plus/icons";
 import router from "@/router";
-import axios from "axios";
 export default {
 
   computed: {
