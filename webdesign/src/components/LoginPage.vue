@@ -34,8 +34,8 @@
 
 <script>
 import {Lock,UserFilled} from "@element-plus/icons";
-import {createRouter as $router} from "vue-router";
-
+import router from "@/router";
+import axios from "axios";
 export default {
 
   computed: {
@@ -69,20 +69,20 @@ export default {
     resetForm(LoginForm){
       this.$refs[LoginForm].resetFields();
     },
-
     /*登录预验证*/
     LoginEvent() {
       this.$refs.LoginFormRef.validate((valid) => {
         if (valid) {
-          this.$http.post('login',this.LoginForm).then(successRespond=>{
-            $router.push('/Home')
-            }, errorRespond=>{
-            this.$notify({
-              title: '提示',
-              message: '账号或密码错误',
-              type: 'error'
+          this.$ajax.post('/login',this.LoginForm).then(successRespond=>{
+            router.push('/home');
             })
-          })
+              .catch(errorRespond=>{
+                this.$notify({
+                  title: '提示',
+                  message: '账号或密码错误',
+                  type: 'error'
+                });
+              });
         }
         else {
           this.$notify({

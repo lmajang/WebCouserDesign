@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:mysql://sh-cdb-l05sd10u.sql.tencentcdb.com:63679/test
+    username: root
+    password: qq1306054494

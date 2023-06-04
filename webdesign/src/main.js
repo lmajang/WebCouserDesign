@@ -5,11 +5,13 @@ import { createApp } from 'vue'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import axios from "axios"
 import App from './App.vue'
-import VueRouter from 'vue-router'
-import VueResource from 'vue-resource'
-createApp(App).use(ElementPlus).mount('#app')
+import router from './router/index'
+/*import VueRouter from 'vue-router'*/
+const app=createApp(App)
+axios.defaults.baseURL='http://localhost:8080'
+app.config.globalProperties.$ajax=axios
+app.use(ElementPlus).use(router).mount('#app')
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    createApp(App).component(key, component)
+    app.component(key, component)
 }
-createApp(App).use(VueResource)
-createApp(App).use(VueRouter)
+
