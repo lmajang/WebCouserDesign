@@ -50,7 +50,7 @@ export default {
     return {
       LoginForm: {
         AccountInput: "",
-        PasswordInput: ""
+        PasswordInput: "",
       },
 
       LoginFormRules:{
@@ -73,7 +73,15 @@ export default {
       this.$refs.LoginFormRef.validate((valid) => {
         if (valid) {
           this.$ajax.post('/login',this.LoginForm).then(successRespond=>{
-            router.push('/home');
+            console.log(successRespond);
+            if(successRespond.data.status==='100'){router.push('/home')}
+            else if(successRespond.data.status==='1'){
+              this.$notify({
+                title: '提示',
+                message: '账号或密码错误',
+                type: 'error'
+              });
+            }
             })
               .catch(errorRespond=>{
                 this.$notify({

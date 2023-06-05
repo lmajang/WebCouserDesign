@@ -9,12 +9,15 @@ const routes =[
     },
     {
         path:"/home",
-        component: Home
+        component: Home,
+        children: [
+            {
+                path:"/applicationForm",
+                component:applicationForm
+            }
+        ]
     },
-    {
-        path:"/applicationForm",
-        component:applicationForm
-    },
+
 ]
 
 const router = createRouter({
