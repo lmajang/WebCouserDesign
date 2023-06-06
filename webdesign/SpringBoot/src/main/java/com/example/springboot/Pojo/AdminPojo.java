@@ -1,4 +1,4 @@
-package com.example.springboot.pojo;
+package com.example.springboot.Pojo;
 
 
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -14,10 +14,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName(value="admin")
 public class AdminPojo {
-    @TableId(value = "id",type = IdType.NONE)
+    @TableId(value = "id",type = IdType.ASSIGN_ID)
     private String id;
-    @TableField(value = "password")
+    @TableField("name")
+    private String name;
+    @TableField("password")
     private  String password;
-
-    public String getpassword(){return this.password;}
+    @TableField("role")
+    private  String role;
+    public String getPassword(){return this.password;}
 }
