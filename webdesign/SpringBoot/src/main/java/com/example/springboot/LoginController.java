@@ -5,26 +5,27 @@ import com.alibaba.fastjson2.JSONObject;
 import com.example.springboot.entity.UserAccount;
 import com.example.springboot.Pojo.AdminPojo;
 import com.example.springboot.Service.AdminServiceImpl;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+//import jakarta.servlet.http.HttpServletRequest;
+//import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.Map;
 
 
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 public class LoginController {
     @Autowired
     AdminServiceImpl adminService;
-    @RequestMapping(value = "/login")
-    @ResponseBody
-    public String login(HttpServletRequest request, @RequestBody Map map, HttpSession session, @RequestParam Map<String, String> parameter){
-        JSONObject json = new JSONObject(map);
-        String username= json.getString("AccountInput");
-        String password=json.getString("Password Input");
+    @RequestMapping(value = "/login",method=RequestMethod.POST)
+    public String addUser(@RequestParam("AccountInput") String username,
+                          @RequestParam("Password Input") String password,
+                          @RequestParam Map<String, String> parameter,
+                          HttpSession session){
         try{
             boolean login=true;
             UserAccount user = new UserAccount(username,password);
@@ -62,4 +63,5 @@ public class LoginController {
         }
         return JSON.toJSONString(parameter);
     }
+
 }
