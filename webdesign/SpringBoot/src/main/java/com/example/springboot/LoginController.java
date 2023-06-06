@@ -10,6 +10,7 @@ import com.example.springboot.Service.AdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,12 +23,14 @@ public class LoginController {
     @Autowired
     AdminServiceImpl adminService;
     @RequestMapping(value = "/login",method=RequestMethod.POST)
-    public String addUser(@RequestParam("AccountInput") String username,
-                          @RequestParam("Password Input") String password,
+    public String addUser(HttpServletRequest request, @RequestBody Map map,
                           @RequestParam Map<String, String> parameter,
                           HttpSession session){
         try{
             boolean login=true;
+            JSONObject json = new JSONObject(map);
+            String username= json.getString("AccountInput");
+            String password=json.getString("Password Input");
             UserAccount user = new UserAccount(username,password);
             if(username.charAt(0)=='0'&&username.charAt(1)=='0') {
                 if(password=="000"){
