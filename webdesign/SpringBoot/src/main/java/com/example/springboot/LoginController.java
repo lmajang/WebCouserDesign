@@ -23,14 +23,16 @@ public class LoginController {
     @Autowired
     AdminServiceImpl adminService;
     @RequestMapping(value = "/login",method=RequestMethod.POST)
-    public String addUser(HttpServletRequest request, @RequestBody Map map,
+    @ResponseBody
+    public String login(HttpServletRequest request, @RequestBody Map map,
                           @RequestParam Map<String, String> parameter,
                           HttpSession session){
+        JSONObject json = new JSONObject(map);
+        String username= json.getString("AccountInput");
+        String password=json.getString("Password Input");
         try{
             boolean login=true;
-            JSONObject json = new JSONObject(map);
-            String username= json.getString("AccountInput");
-            String password=json.getString("Password Input");
+
             UserAccount user = new UserAccount(username,password);
             if(username.charAt(0)=='0'&&username.charAt(1)=='0') {
                 if(password=="000"){
