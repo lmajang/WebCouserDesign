@@ -2,6 +2,10 @@ package com.example.springboot;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.example.springboot.Pojo.StudentPojo;
+import com.example.springboot.Pojo.TeacherPojo;
+import com.example.springboot.Service.StudentServiceImpl;
+import com.example.springboot.Service.TeacherServiceImpl;
 import com.example.springboot.entity.UserAccount;
 import com.example.springboot.Pojo.AdminPojo;
 import com.example.springboot.Service.AdminServiceImpl;
@@ -22,6 +26,10 @@ import java.util.Map;
 public class LoginController {
     @Autowired
     AdminServiceImpl adminService;
+    @Autowired
+    StudentServiceImpl studentService;
+    @Autowired
+    TeacherServiceImpl teacherService;
     @RequestMapping(value = "/login",method=RequestMethod.POST)
     @ResponseBody
     public String login(HttpServletRequest request, @RequestBody Map map,
@@ -32,10 +40,9 @@ public class LoginController {
         String password=json.getString("Password Input");
         try{
             boolean login=true;
-
             UserAccount user = new UserAccount(username,password);
             if(username.charAt(0)=='0'&&username.charAt(1)=='0') {
-                if(password=="000"){
+                if(password.equals("000")){
                     parameter.put("message","success");
                     parameter.put("status","100");
                     session.setAttribute("user",user);
@@ -45,19 +52,44 @@ public class LoginController {
             else if(username.charAt(0)=='0'&&username.charAt(1)=='1'){
                 AdminPojo answer=adminService.findAdminById(username);
                 String password1=answer.getPassword();
-                if(password1==password){
+                if(password1.equals(password)){
                     parameter.put("message","success");
                     parameter.put("status","200");
                     session.setAttribute("user",user);
                 }
                 else login=false;
             }
-            else if(user.getUsername().equals("admin")&&user.getPassword().equals("admin")) {
-                parameter.put("message", "success");
-                parameter.put("status", "300");
-                session.setAttribute("user",user);
+            else if(username.charAt(0)=='0'&&username.charAt(1)=='2'）{
+                AdminPojo answer=adminService.findAdminById(username);
+                String password1=answer.getPassword();
+                if(password1.equals(password)) {
+                    parameter.put("message", "success");
+                    parameter.put("status", "300");
+                    session.setAttribute("user", user);
+                }
+                else login=false;
             }
-            else if(login==false){
+            else if(username.charAt(0)=='0'&&username.charAt(1)=='3'){
+                TeacherPojo answer=teacherService.findTeacherById(username);
+                String password1=answer.getPassword();
+                if(password1.equals(password)){
+                    parameter.put("message", "success");
+                    parameter.put("status", "400");
+                    session.setAttribute("user", user);
+                }
+                else login=false;
+            }
+            else if(username.charAt(0)=='0'&&username.charAt(1)=='4'){
+                StudentPojo answer=studentService.findStudentById(username);
+                String password1=answer.getPassword();
+                if(password1.equals(password)){
+                    parameter.put("message", "success");
+                    parameter.put("status", "400");
+                    session.setAttribute("user", user);
+                }
+                else login=false;
+        }
+            if(login==false){
                 parameter.put("message", "fail");
                 parameter.put("status", "1");
             }
