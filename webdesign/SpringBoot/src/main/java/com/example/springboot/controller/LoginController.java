@@ -1,4 +1,4 @@
-package com.example.springboot;
+package com.example.springboot.controller;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -59,7 +59,7 @@ public class LoginController {
                 }
                 else login=false;
             }
-            else if(username.charAt(0)=='0'&&username.charAt(1)=='2'）{
+            else if(username.charAt(0)=='0'&&username.charAt(1)=='2'){
                 AdminPojo answer=adminService.findAdminById(username);
                 String password1=answer.getPassword();
                 if(password1.equals(password)) {

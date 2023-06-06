@@ -24,7 +24,7 @@ public class StudentPojo {
     @TableField("major")
     private  String major;
     @TableField("class")
-    private  String class;
+    private  String class1;
     @TableField("health")
     private String health;
     @TableField("daily")
