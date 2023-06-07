@@ -38,67 +38,62 @@ public class AdminController {
         return result;
     }
 
+
+
     @RequestMapping(value = "/majorinformation", method = RequestMethod.POST)
     @ResponseBody
-    public String findmajor() {
-        List<MajorPojo> list = majorService.findAllById();
-        String result = JSON.toJSONString(list);
-        return result;
-    }
-
-    @RequestMapping(value = "/academymajor", method = RequestMethod.POST)
-    @ResponseBody
-    public String findmajorByAcademy(HttpServletRequest request,@RequestBody Map map,
+    public String findmajor(HttpServletRequest request,@RequestBody String id,
                                      @RequestParam Map<String, String> parameter) {
-        JSONObject json = new JSONObject(map);
-        String username=json.getString("usernameInput");
-        TeacherPojo answer=teacherService.findTeacherById(username);
-        String academy= answer.getAcademy();
-        List<MajorPojo> list = majorService.findByAcademy(academy);
-        String result = JSON.toJSONString(list);
-        return result;
+        String username = id.substring(0, id.length() - 1);
+        String academy = teacherService.findTeacherById(username).getAcademy();
+        if(username.charAt(1)=='2') {
+            List<MajorPojo> list = majorService.findByAcademy(academy);
+            String result = JSON.toJSONString(list);
+            return result;
+        }
+        else {
+            List<MajorPojo> list = majorService.findAllById();
+            String result = JSON.toJSONString(list);
+            return result;
+        }
     }
 
     @RequestMapping(value = "/classinformation", method = RequestMethod.POST)
     @ResponseBody
-    public String findclass() {
-        List<ClassPojo> list = classService.findAllById();
-        String result = JSON.toJSONString(list);
-        return result;
+    public String findclass(HttpServletRequest request,@RequestBody String id,
+                                     @RequestParam Map<String, String> parameter) {
+        String username = id.substring(0, id.length() - 1);
+        String academy = teacherService.findTeacherById(username).getAcademy();
+        if(username.charAt(1)=='2') {
+            List<ClassPojo> list = classService.findByAcademy(academy);
+            String result = JSON.toJSONString(list);
+            return result;
+        }
+        else {
+            List<ClassPojo> list = classService.findAllById();
+            String result = JSON.toJSONString(list);
+            return result;
+        }
     }
 
-    @RequestMapping(value = "/academyclass", method = RequestMethod.POST)
-    @ResponseBody
-    public String findclassByAcademy(HttpServletRequest request,@RequestBody Map map,
-                                     @RequestParam Map<String, String> parameter) {
-        JSONObject json = new JSONObject(map);
-        String username=json.getString("usernameInput");
-        TeacherPojo answer=teacherService.findTeacherById(username);
-        String academy= answer.getAcademy();
-        List<ClassPojo> list = classService.findByAcademy(academy);
-        String result = JSON.toJSONString(list);
-        return result;
-    }
+
 
     @RequestMapping(value = "/studentinformation", method = RequestMethod.POST)
     @ResponseBody
-    public String findstudent() {
-        List<StudentPojo> list = studentService.findAllById();
-        String result = JSON.toJSONString(list);
-        return result;
-    }
-
-    @RequestMapping(value = "/academystudent", method = RequestMethod.POST)
-    @ResponseBody
-    public String findstudentByAcademy(HttpServletRequest request,@RequestBody Map map,
+    public String findstudent(HttpServletRequest request,@RequestBody String id,
                                      @RequestParam Map<String, String> parameter) {
-        JSONObject json = new JSONObject(map);
-        String username=json.getString("usernameInput");
-        TeacherPojo answer=teacherService.findTeacherById(username);
-        String academy= answer.getAcademy();
-        List<StudentPojo> list = studentService.findByAcademy(academy);
-        String result = JSON.toJSONString(list);
-        return result;
+        String username = id.substring(0, id.length() - 1);
+        String academy = teacherService.findTeacherById(username).getAcademy();
+        if(username.charAt(1)=='2') {
+            List<StudentPojo> list = studentService.findByAcademy(academy);
+            String result = JSON.toJSONString(list);
+            return result;
+        }
+        else {
+            List<StudentPojo> list = studentService.findAllById();
+            String result = JSON.toJSONString(list);
+            return result;
+        }
     }
 
     @RequestMapping(value = "/teacherinformation", method = RequestMethod.POST)
@@ -119,7 +114,7 @@ public class AdminController {
         String academy=json.getString("academyInput");
         String role=json.getString("roleInput");
         String health="灰色";
-        boolean daily=false;
+        int daily=0;
         int daycount=0;
         try {
             teacherService.addTeacher(Tname, Tidcard, Tno, academy, role, health, daily,daycount);
@@ -144,7 +139,7 @@ public class AdminController {
         String academy=json.getString("academyInput");
         String class1=json.getString("classInput");
         String health="灰色";
-        boolean daily=false;
+        int daily=0;
         int daycount=0;
         try {
             studentService.addStudent(Sname, Sidcard, Sno, academy, major,class1,health,daily,daycount);

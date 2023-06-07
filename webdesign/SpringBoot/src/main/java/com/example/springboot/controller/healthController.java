@@ -73,7 +73,7 @@ public class healthController {
                 teacherService.updatehealth(Tno, "红色");
                 parameter.put("health", "red");
             } else {
-                teacherService.updatedaily(Tno, true);
+                teacherService.updatedaily(Tno, 1);
                 TeacherPojo result = teacherService.findTeacherById(Tno);
                 int count = result.getDaycount();
                 if (count == 0 || count == 1) {
@@ -143,7 +143,7 @@ public class healthController {
                 studentService.updatehealth(Sno,"红色");
                 parameter.put("health","red");
             } else {
-                studentService.updatedaily(Sno,true);
+                studentService.updatedaily(Sno,1);
                 StudentPojo result = studentService.findStudentById(Sno);
                 int count = result.getDaycount();
                 if(count==0||count==1) {

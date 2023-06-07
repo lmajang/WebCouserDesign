@@ -22,7 +22,7 @@ public class TeacherServiceImpl {
     public List<TeacherPojo> findAllById(){return teacherDao.selectList(new QueryWrapper<>());}
 
     public void addTeacher(String Tname,String Tidcard,String Tno,String academy,
-                           String role,String health,boolean daily,int daycount){
+                           String role,String health,int daily,int daycount){
         teacherDao.insert(new TeacherPojo(Tname,Tidcard,Tno,academy,role,health,daily,daycount));
     }
     public void delTeacher(String Tno){
@@ -43,7 +43,7 @@ public class TeacherServiceImpl {
         wrapper.eq("Tno",Tno);
         teacherDao.update(teacherPojo,wrapper);
     }
-    public void updatedaily(String Tno,boolean daily){
+    public void updatedaily(String Tno,int daily){
         TeacherPojo teacherPojo=new TeacherPojo();
         teacherPojo.setDaily(daily);
         QueryWrapper<TeacherPojo> wrapper=new QueryWrapper<>();
