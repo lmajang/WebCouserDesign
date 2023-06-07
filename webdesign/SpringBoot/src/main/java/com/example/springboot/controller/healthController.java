@@ -2,6 +2,7 @@ package com.example.springboot.controller;
 
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.example.springboot.Pojo.MajorPojo;
 import com.example.springboot.Pojo.StudentPojo;
@@ -32,7 +33,7 @@ public class healthController {
     AdminServiceImpl adminService;
     @RequestMapping(value = "/Teacherhealth", method = RequestMethod.POST)
     @ResponseBody
-    public String health(HttpServletRequest request, @RequestBody String id,
+    public String teacherhealth(HttpServletRequest request, @RequestBody String id,
                                      @RequestParam Map<String, String> parameter) {
         String username=id.substring(0,id.length()-1);
         TeacherPojo result=teacherService.findTeacherById(username);
@@ -41,7 +42,7 @@ public class healthController {
 
     @RequestMapping(value = "/Teacherhealthget", method = RequestMethod.POST)
     @ResponseBody
-    public String healthget(HttpServletRequest request, @RequestBody Map map,
+    public String teacherhealthget(HttpServletRequest request, @RequestBody Map map,
                          @RequestParam Map<String, String> parameter) {
         JSONObject json = new JSONObject(map);
         String Tno=json.getString("no");
@@ -51,7 +52,7 @@ public class healthController {
         String isSicken =json.getString("isSicken");
         String isInjection= json.getString("isInjection");
         String isHealthy =json.getString("isHealthy");
-        ArrayList list=json.getList("healthycondition");
+        JSONArray list=json.getJSONArray("healthyCondition");
         int num=list.size();
         int condition=0;
         boolean vaccinum=true;
@@ -60,23 +61,37 @@ public class healthController {
         if(num==1) condition=1;
         if(isContact.equals("1")) condition=2;
         if(isSicken.equals("1")) condition=2;
+        if(num>=2) condition=2;
         if(isInjection.equals("0")) vaccinum=false;
         try {
             if (condition == 1) {
+                teacherService.updatedaycount(Tno, 7);
                 teacherService.updatehealth(Tno, "黄色");
-                parameter.put("helath", "yellow");
+                parameter.put("health", "yellow");
             } else if (condition == 2) {
-                teacherService.updatehealth(Tno,"红色");
-                parameter.put("health","red");
+                teacherService.updatedaycount(Tno, 14);
+                teacherService.updatehealth(Tno, "红色");
+                parameter.put("health", "red");
             } else {
-                teacherService.updatedaily(Tno,true);
-                if (vaccinum == true){
-                    teacherService.updatehealth(Tno,"蓝色");
-                    parameter.put("health","blue");
-                }
-                else{
-                    teacherService.updatehealth(Tno,"绿色");
-                    parameter.put("health","green");
+                teacherService.updatedaily(Tno, true);
+                TeacherPojo result = teacherService.findTeacherById(Tno);
+                int count = result.getDaycount();
+                if (count == 0 || count == 1) {
+                    teacherService.updatedaycount(Tno, 0);
+                    if (vaccinum == true) {
+                        teacherService.updatehealth(Tno, "蓝色");
+                        parameter.put("health", "blue");
+                    } else {
+                        teacherService.updatehealth(Tno, "绿色");
+                        parameter.put("health", "green");
+                    }
+                } else {
+                    count = count - 1;
+                    if (count == 7) {
+                        teacherService.updatehealth(Tno, "黄色");
+                        parameter.put("health", "yellow");
+                    }
+                    teacherService.updatedaycount(Tno, count);
                 }
             }
         }
@@ -88,7 +103,7 @@ public class healthController {
 
     @RequestMapping(value = "/Studenthealth", method = RequestMethod.POST)
     @ResponseBody
-    public String health(HttpServletRequest request, @RequestBody String id,
+    public String studenthealth(HttpServletRequest request, @RequestBody String id,
                          @RequestParam Map<String, String> parameter) {
         String username=id.substring(0,id.length()-1);
         StudentPojo result=studentService.findStudentById(username);
@@ -97,7 +112,7 @@ public class healthController {
 
     @RequestMapping(value = "/Studenthealthget", method = RequestMethod.POST)
     @ResponseBody
-    public String healthget(HttpServletRequest request, @RequestBody Map map,
+    public String studenthealthget(HttpServletRequest request, @RequestBody Map map,
                             @RequestParam Map<String, String> parameter) {
         JSONObject json = new JSONObject(map);
         String Sno=json.getString("no");
@@ -107,7 +122,7 @@ public class healthController {
         String isSicken =json.getString("isSicken");
         String isInjection= json.getString("isInjection");
         String isHealthy =json.getString("isHealthy");
-        ArrayList list=json.getList("healthycondition");
+        JSONArray list=json.getJSONArray("healthyCondition");
         int num=list.size();
         int condition=0;
         boolean vaccinum=true;
@@ -116,23 +131,38 @@ public class healthController {
         if(num==1) condition=1;
         if(isContact.equals("1")) condition=2;
         if(isSicken.equals("1")) condition=2;
+        if(num>=2) condition=2;
         if(isInjection.equals("0")) vaccinum=false;
         try {
             if (condition == 1) {
+                studentService.updatedaycount(Sno, 7);
                 studentService.updatehealth(Sno, "黄色");
-                parameter.put("helath", "yellow");
+                parameter.put("health", "yellow");
             } else if (condition == 2) {
+                studentService.updatedaycount(Sno,14);
                 studentService.updatehealth(Sno,"红色");
                 parameter.put("health","red");
             } else {
                 studentService.updatedaily(Sno,true);
-                if (vaccinum == true){
-                    studentService.updatehealth(Sno,"蓝色");
-                    parameter.put("health","blue");
+                StudentPojo result = studentService.findStudentById(Sno);
+                int count = result.getDaycount();
+                if(count==0||count==1) {
+                     studentService.updatedaycount(Sno,0);
+                    if (vaccinum == true) {
+                        studentService.updatehealth(Sno, "蓝色");
+                        parameter.put("health", "blue");
+                    } else {
+                        studentService.updatehealth(Sno, "绿色");
+                        parameter.put("health", "green");
+                    }
                 }
                 else{
-                    studentService.updatehealth(Sno,"绿色");
-                    parameter.put("health","green");
+                    count = count - 1;
+                    if (count == 7) {
+                        studentService.updatehealth(Sno, "黄色");
+                        parameter.put("health", "yellow");
+                    }
+                    studentService.updatedaycount(Sno, count);
                 }
             }
         }

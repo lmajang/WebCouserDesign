@@ -21,8 +21,8 @@ public class StudentServiceImpl {
     public List<StudentPojo> findAllById(){return studentDao.selectList(new QueryWrapper<>());}
 
     public void addStudent(String Sname,String Sidcard,String Sno,String academy,
-                           String major,String class1,String health,boolean daily){
-        studentDao.insert(new StudentPojo(Sname,Sidcard,Sno,academy,major,class1,health,daily));
+                           String major,String class1,String health,boolean daily,int daycount){
+        studentDao.insert(new StudentPojo(Sname,Sidcard,Sno,academy,major,class1,health,daily,daycount));
     }
     public void delStudent(String Sno){
         studentDao.deleteById(Sno);
@@ -53,6 +53,14 @@ public class StudentServiceImpl {
     public void updatedaily(String Sno,boolean daily){
         StudentPojo studentPojo=new StudentPojo();
         studentPojo.setDaily(daily);
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("Sno",Sno);
+        studentDao.update(studentPojo,wrapper);
+    }
+
+    public void updatedaycount(String Sno,int daycount){
+        StudentPojo studentPojo=new StudentPojo();
+        studentPojo.setDaycount(daycount);
         QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
         wrapper.eq("Sno",Sno);
         studentDao.update(studentPojo,wrapper);

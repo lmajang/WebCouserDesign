@@ -29,5 +29,7 @@ public class StudentPojo {
     private String health;
     @TableField("daily")
     private boolean daily;
+    @TableField("daycount")
+    private  int daycount;
     public String getPassword(){return this.Sidcard.substring(this.Sidcard.length()-8);}
 }

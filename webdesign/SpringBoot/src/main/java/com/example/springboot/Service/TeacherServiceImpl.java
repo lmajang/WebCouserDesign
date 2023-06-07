@@ -20,8 +20,8 @@ public class TeacherServiceImpl {
     public List<TeacherPojo> findAllById(){return teacherDao.selectList(new QueryWrapper<>());}
 
     public void addTeacher(String Tname,String Tidcard,String Tno,String academy,
-                           String role,String health,boolean daily){
-        teacherDao.insert(new TeacherPojo(Tname,Tidcard,Tno,academy,role,health,daily));
+                           String role,String health,boolean daily,int daycount){
+        teacherDao.insert(new TeacherPojo(Tname,Tidcard,Tno,academy,role,health,daily,daycount));
     }
     public void delTeacher(String Tno){
         teacherDao.deleteById(Tno);
@@ -44,6 +44,14 @@ public class TeacherServiceImpl {
     public void updatedaily(String Tno,boolean daily){
         TeacherPojo teacherPojo=new TeacherPojo();
         teacherPojo.setDaily(daily);
+        QueryWrapper<TeacherPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("Tno",Tno);
+        teacherDao.update(teacherPojo,wrapper);
+    }
+
+    public void updatedaycount(String Tno,int daycount){
+        TeacherPojo teacherPojo=new TeacherPojo();
+        teacherPojo.setDaycount(daycount);
         QueryWrapper<TeacherPojo> wrapper=new QueryWrapper<>();
         wrapper.eq("Tno",Tno);
         teacherDao.update(teacherPojo,wrapper);

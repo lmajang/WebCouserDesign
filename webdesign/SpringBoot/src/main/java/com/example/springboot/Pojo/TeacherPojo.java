@@ -27,5 +27,7 @@ public class TeacherPojo {
     private String health;
     @TableField("daily")
     private boolean daily;
+    @TableField("daycount")
+    private int daycount;
     public String getPassword(){return this.Tidcard.substring(this.Tidcard.length()-8);}
 }

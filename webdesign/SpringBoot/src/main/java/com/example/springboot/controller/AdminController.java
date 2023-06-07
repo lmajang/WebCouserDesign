@@ -120,8 +120,9 @@ public class AdminController {
         String role=json.getString("roleInput");
         String health="灰色";
         boolean daily=false;
+        int daycount=0;
         try {
-            teacherService.addTeacher(Tname, Tidcard, Tno, academy, role, health, daily);
+            teacherService.addTeacher(Tname, Tidcard, Tno, academy, role, health, daily,daycount);
             parameter.put("message", "success");
             parameter.put("status", "200");
         }catch (Exception e){
@@ -144,8 +145,9 @@ public class AdminController {
         String class1=json.getString("classInput");
         String health="灰色";
         boolean daily=false;
+        int daycount=0;
         try {
-            studentService.addStudent(Sname, Sidcard, Sno, academy, major,class1,health,daily);
+            studentService.addStudent(Sname, Sidcard, Sno, academy, major,class1,health,daily,daycount);
             parameter.put("message", "success");
             parameter.put("status", "200");
         }catch (Exception e){
