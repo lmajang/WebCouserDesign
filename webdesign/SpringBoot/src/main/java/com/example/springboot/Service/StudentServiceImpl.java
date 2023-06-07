@@ -5,6 +5,7 @@ import com.example.springboot.Dao.StudentDao;
 import com.example.springboot.Pojo.AdminPojo;
 import com.example.springboot.Pojo.MajorPojo;
 import com.example.springboot.Pojo.StudentPojo;
+import com.example.springboot.Pojo.TeacherPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +41,20 @@ public class StudentServiceImpl {
         wrapper.eq("academy",academy);
         List<StudentPojo> list=studentDao.selectList(wrapper);
         return list;
+    }
+
+    public void updatehealth(String Sno,String health){
+        StudentPojo studentrPojo=new StudentPojo();
+        studentrPojo.setHealth(health);
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("Sno",Sno);
+        studentDao.update(studentrPojo,wrapper);
+    }
+    public void updatedaily(String Sno,boolean daily){
+        StudentPojo studentPojo=new StudentPojo();
+        studentPojo.setDaily(daily);
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("Sno",Sno);
+        studentDao.update(studentPojo,wrapper);
     }
 }

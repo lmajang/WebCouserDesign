@@ -34,4 +34,18 @@ public class TeacherServiceImpl {
         wrapper.eq("Tno",Tno);
         teacherDao.update(teacherPojo,wrapper);
     }
+    public void updatehealth(String Tno,String health){
+        TeacherPojo teacherPojo=new TeacherPojo();
+        teacherPojo.setHealth(health);
+        QueryWrapper<TeacherPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("Tno",Tno);
+        teacherDao.update(teacherPojo,wrapper);
+    }
+    public void updatedaily(String Tno,boolean daily){
+        TeacherPojo teacherPojo=new TeacherPojo();
+        teacherPojo.setDaily(daily);
+        QueryWrapper<TeacherPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("Tno",Tno);
+        teacherDao.update(teacherPojo,wrapper);
+    }
 }
