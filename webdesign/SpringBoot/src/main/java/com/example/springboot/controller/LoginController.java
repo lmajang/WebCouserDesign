@@ -22,7 +22,7 @@ import java.util.Map;
 
 
 @RestController
-//@CrossOrigin
+@CrossOrigin
 public class LoginController {
     @Autowired
     AdminServiceImpl adminService;

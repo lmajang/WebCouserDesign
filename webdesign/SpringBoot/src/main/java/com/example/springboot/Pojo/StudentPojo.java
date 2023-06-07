@@ -14,13 +14,13 @@ import lombok.NoArgsConstructor;
 @TableName(value="student")
 public class StudentPojo {
     @TableId(value = "Sno",type = IdType.ASSIGN_ID)
-    private String id;
+    private String Sno;
     @TableField("Sname")
-    private String name;
+    private String Sname;
     @TableField("Sidcard")
-    private  String identity;
+    private  String Sidcard;
     @TableField("academy")
-    private  String college;
+    private  String academy;
     @TableField("major")
     private  String major;
     @TableField("class")
@@ -29,5 +29,5 @@ public class StudentPojo {
     private String health;
     @TableField("daily")
     private boolean daily;
-    public String getPassword(){return this.identity.substring(this.identity.length()-8);}
+    public String getPassword(){return this.Sidcard.substring(this.Sidcard.length()-8);}
 }
