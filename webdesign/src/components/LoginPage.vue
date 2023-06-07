@@ -72,21 +72,70 @@ export default {
     LoginEvent() {
       this.$refs.LoginFormRef.validate((valid) => {
         if (valid) {
+          console.log(this.LoginForm)
           this.$ajax.post('/login',this.LoginForm).then(successRespond=>{
-            console.log(successRespond);
-            if(successRespond.data.status==='100'){router.push('/home')}
-            else if(successRespond.data.status==='1'){
+            sessionStorage.setItem("no",this.LoginForm.AccountInput);
+            if(successRespond.data.status==='100'){
+              localStorage.setItem('role',successRespond.data.status);
+              sessionStorage.setItem('identity',"Teacher");
+              this.$notify({
+                title: '提示',
+                message: '欢迎登录，系统管理员！',
+                type: 'success'
+              });
+              router.push('/home')
+            }
+            else if(successRespond.data.status==='200'){
+              localStorage.setItem('role',successRespond.data.status);
+              sessionStorage.setItem('identity',"Teacher");
+              this.$notify({
+                title: '提示',
+                message: '欢迎登录，校级管理员！',
+                type: 'success'
+              });
+              router.push('/home')
+            }
+            else if(successRespond.data.status==='300'){
+              localStorage.setItem('role',successRespond.data.status);
+              sessionStorage.setItem('identity','Teacher');
+              this.$notify({
+                title: '提示',
+                message: '欢迎登录，院级管理员！',
+                type: 'success'
+              });
+              router.push('/home')
+            }
+            else if(successRespond.data.status==='400'){
+              sessionStorage.setItem('identity',"Teacher");
+              this.$notify({
+                title: '提示',
+                message: '欢迎登录',
+                type: 'success'
+              });
+              router.push('/home')
+            }
+            else if(successRespond.data.status==='500'){
+              sessionStorage.setItem('identity',"Student");
+              this.$notify({
+                title: '提示',
+                message: '欢迎登录',
+                type: 'success'
+              });
+              router.push('/home')
+            }
+            else {
               this.$notify({
                 title: '提示',
                 message: '账号或密码错误',
                 type: 'error'
               });
+              router.push('/')
             }
             })
               .catch(errorRespond=>{
                 this.$notify({
                   title: '提示',
-                  message: '账号或密码错误',
+                  message: '系统出错',
                   type: 'error'
                 });
               });

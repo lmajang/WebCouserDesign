@@ -9,7 +9,6 @@
       ref="HealthyForm"
   >
 <!--个人信息-->
-
     <el-form-item label="姓名" prop="name"><!--个人信息，包括姓名、身份证号、工号或学号、手机号，-->
       <el-input v-model="HealthyForm.name" disabled/>
     </el-form-item>
@@ -17,7 +16,7 @@
       <el-input v-model="HealthyForm.idCard" disabled/>
     </el-form-item>
     <el-form-item label="工号或学号" prop="number">
-      <el-input v-model="HealthyForm.number" disabled/>
+      <el-input v-model="HealthyForm.no" disabled/>
     </el-form-item>
     <el-form-item label="手机号" prop="pnumber">
       <el-input v-model="HealthyForm.pnumber" />
@@ -61,7 +60,7 @@
         <el-radio label="0" name="type" value="0">异常</el-radio>
       </el-radio-group>
     </el-form-item>
-    <el-form-item key="Condition" v-if="HealthyForm.isHealthy==='0'" label="症状" prop="healthy">
+    <el-form-item key="contional" v-if="HealthyForm.isHealthy==='0'" label="症状" prop="healthy">
       <el-checkbox-group v-model="HealthyForm.healthyCondition">
         <el-checkbox label="0" >发烧（≥37.3℃）</el-checkbox>
         <el-checkbox label="1" >乏力</el-checkbox>
@@ -90,7 +89,7 @@ export default {
       HealthyForm: {
         name: '',
         idCard: '',
-        number: '',
+        no: sessionStorage.getItem('no'),
         pnumber: '',
         goAffect: '',
         goAbroad: '',
@@ -130,14 +129,27 @@ export default {
         }
       };
     },
+  mounted() {
+    this.getData()
+  },
   methods:{
     submitEvent(){
     this.$refs.HealthyForm.validate((valid)=>{
       if(valid){
-        this.$notify({
-          title: '提示',
-          message: '提交成功',
-          type: 'success'
+        this.$ajax.post('/'+sessionStorage.getItem('identity')+'healthget',this.HealthyForm).then(successRespond=>{
+          console.log(successRespond.data)
+          sessionStorage.setItem('QrColor',successRespond.data.health)
+          this.$notify({
+            title: '提示',
+            message: '提交成功',
+            type: 'success'
+          })
+        }).catch(errorRespond=>{
+          this.$notify({
+            title: '提示',
+            message: '提交失败',
+            type: 'error'
+          })
         })
       }
       else {console.log('Error');
@@ -146,6 +158,23 @@ export default {
     },
     resetForm(){
       this.$refs.HealthyForm.resetFields();
+    },
+    getData(){
+      this.$ajax.post('/'+sessionStorage.getItem('identity')+'health',this.HealthyForm.no).then(response=>{
+        console.log(response.data)
+        if(sessionStorage.getItem('identity')==='Teacher')
+        {
+          this.HealthyForm.name=response.data.tname;
+          this.HealthyForm.idCard=response.data.tidcard;
+        }
+        else if(sessionStorage.getItem('identity')==='Student'){
+          this.HealthyForm.name=response.data.sname;
+          this.HealthyForm.idCard=response.data.sidcard;
+        }
+      })
+          .catch(error=>{
+            console.error('error:',error);
+          })
     },
 
   }
