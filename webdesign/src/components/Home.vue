@@ -3,11 +3,12 @@
 
   <el-header class="home-header">
     <el-menu
-        :default-active="activeIndex"
+        default-active="this.$route.path"
         class="el-menu-demo"
         mode="horizontal"
         :ellipsis="false"
         @select="handleSelect"
+        router
     >
       <el-menu-item index="0">LOGO</el-menu-item>
       <div class="flex-grow" />
@@ -26,8 +27,8 @@
       </el-sub-menu>
       <el-sub-menu index="3" class="user" >
         <template #title><el-avatar> user </el-avatar></template>
-        <el-menu-item index="3-1">个人中心</el-menu-item>
-        <el-menu-item index="3-2">登出</el-menu-item>
+        <el-menu-item index="/personPage">个人中心</el-menu-item>
+        <el-menu-item index="/">登出</el-menu-item>
       </el-sub-menu>
     </el-menu>
   </el-header>
@@ -45,29 +46,25 @@
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b" style="height: 100%" router>
-        <el-sub-menu index="1">
-
+<!--账号管理 -->
+        <el-sub-menu index="1" v-if="role ==='100'">
           <template #title>
             <i class="el-icon-location"></i>
             <span>账号管理</span>
           </template>
-
-          <el-menu-item-group title="分组1">
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="1-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="1-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="1-4-1">选项1</el-menu-item>
-          </el-submenu>
+            <el-menu-item index="/TeacherAccount">教师账号</el-menu-item>
         </el-sub-menu>
-        <el-menu-item index="/">
-          <i class="el-icon-menu"></i>
-          <span slot="title">信息管理</span>
-        </el-menu-item>
+
+        <!--信息管理 -->
+        <el-sub-menu index="2">
+          <template #title>
+            <i class="el-icon-location"></i>
+            <span>信息管理</span>
+          </template>
+          <el-menu-item index="/Teacherinformation">教师</el-menu-item>
+          <el-menu-item index="/Studentinformation">学生</el-menu-item>
+        </el-sub-menu>
+        <el-menu-item index="/echarts">信息统计</el-menu-item>
         <el-menu-item index="/applicationForm">
           <i class="el-icon-setting"></i>
           <span slot="title">健康码申报</span>
@@ -88,6 +85,11 @@
 export default {
   name: "Home",
 
+  data(){
+    return{
+      role:localStorage.getItem('role'),
+    };
+  },
   methods:{
   }
 }

@@ -1,13 +1,15 @@
 import './assets/main.css'
+import { createApp } from 'vue'
+import App from './App.vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-import { createApp } from 'vue'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import axios from "axios"
-import App from './App.vue'
 import router from './router/index'
-/*import VueRouter from 'vue-router'*/
+import * as echarts from 'echarts'
+import QrcodeVue from 'qrcode.vue'
 const app=createApp(App)
+app.config.globalProperties.$echarts = echarts
 axios.defaults.baseURL='http://localhost:8080'
 app.config.globalProperties.$ajax=axios
 app.use(ElementPlus).use(router).mount('#app')
