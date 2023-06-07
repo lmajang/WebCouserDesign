@@ -65,4 +65,88 @@ public class StudentServiceImpl {
         wrapper.eq("Sno",Sno);
         studentDao.update(studentPojo,wrapper);
     }
+    public Long GreenCount(){
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("health","绿色");
+        Long count= studentDao.selectCount(wrapper);
+        return count;
+    }
+    public Long RedCount(){
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("health","红色");
+        Long count= studentDao.selectCount(wrapper);
+        return count;
+    }
+    public Long BlueCount(){
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("health","蓝色");
+        Long count= studentDao.selectCount(wrapper);
+        return count;
+    }
+    public Long YellowCount(){
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("health","黄色");
+        Long count= studentDao.selectCount(wrapper);
+        return count;
+    }
+    public Long GreyCount(){
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("health","灰色");
+        Long count= studentDao.selectCount(wrapper);
+        return count;
+    }
+    public Long YesCount(){
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("daily","1");
+        Long count= studentDao.selectCount(wrapper);
+        return count;
+    }
+    public Long NoCount(){
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("daily","0");
+        Long count= studentDao.selectCount(wrapper);
+        return count;
+    }
+    public Long academyGreenCount(String academy){
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("health","绿色").eq("academy",academy);
+        Long count= studentDao.selectCount(wrapper);
+        return count;
+    }
+    public Long academyBlueCount(String academy){
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("health","蓝色").eq("academy",academy);
+        Long count= studentDao.selectCount(wrapper);
+        return count;
+    }
+    public Long academyRedCount(String academy){
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("health","红色").eq("academy",academy);
+        Long count= studentDao.selectCount(wrapper);
+        return count;
+    }
+    public Long academyYellowCount(String academy){
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("health","黄色").eq("academy",academy);
+        Long count= studentDao.selectCount(wrapper);
+        return count;
+    }
+    public Long academyGreyCount(String academy) {
+        QueryWrapper<StudentPojo> wrapper = new QueryWrapper<>();
+        wrapper.eq("health", "灰色").eq("academy", academy);
+        Long count = studentDao.selectCount(wrapper);
+        return count;
+    }
+    public Long academyYesCount(String academy){
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("daily","1").eq("academy",academy);
+        Long count= studentDao.selectCount(wrapper);
+        return count;
+    }
+    public Long academyNoCount(String academy){
+        QueryWrapper<StudentPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("daily","0").eq("academy",academy);
+        Long count= studentDao.selectCount(wrapper);
+        return count;
+    }
 }
