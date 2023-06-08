@@ -37,7 +37,7 @@ public class LoginController {
                           HttpSession session){
         JSONObject json = new JSONObject(map);
         String username= json.getString("AccountInput");
-        String password=json.getString("Password Input");
+        String password=json.getString("PasswordInput");
         try{
             boolean login=true;
             UserAccount user = new UserAccount(username,password);
@@ -84,7 +84,7 @@ public class LoginController {
                 String password1=answer.getPassword();
                 if(password1.equals(password)){
                     parameter.put("message", "success");
-                    parameter.put("status", "400");
+                    parameter.put("status", "500");
                     session.setAttribute("user", user);
                 }
                 else login=false;

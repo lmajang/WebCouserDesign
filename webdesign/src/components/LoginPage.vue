@@ -106,6 +106,7 @@ export default {
               router.push('/home')
             }
             else if(successRespond.data.status==='400'){
+              localStorage.setItem('role',successRespond.data.status);
               sessionStorage.setItem('identity',"Teacher");
               this.$notify({
                 title: '提示',
@@ -115,6 +116,7 @@ export default {
               router.push('/home')
             }
             else if(successRespond.data.status==='500'){
+              localStorage.setItem('role',successRespond.data.status);
               sessionStorage.setItem('identity',"Student");
               this.$notify({
                 title: '提示',

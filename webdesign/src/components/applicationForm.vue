@@ -71,6 +71,11 @@
         <el-checkbox label="6" >腹泻</el-checkbox>
       </el-checkbox-group>
     </el-form-item>
+    <el-form-item prop="mustdata">
+      <el-checkbox-group v-model="HealthyForm.mustdata">
+      <el-checkbox label="1"   >本人郑重承诺：填报信息真实，愿意承担相应的法律责任。</el-checkbox>
+      </el-checkbox-group>
+    </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitEvent()">
         提交
@@ -97,9 +102,9 @@ export default {
         isSicken: '',
         isInjection: '',
         isHealthy: '',
-        healthyCondition: []
+        healthyCondition: [],
+        mustdata:[],
       },
-
         rules: {
           pnumber: [
             {required: true,message: '请输入电话号码', trigger: 'blur'},
@@ -124,7 +129,10 @@ export default {
             {required: true,message: '该项不能为空',trigger: 'change'}
           ],
           healthyCondition:[
-            {type:'array', required: true,message: '该项不能为空',trigger: 'change'}
+            {required: true,message: '该项不能为空',trigger: 'change'}
+          ],
+          mustdata:[
+            {required: true,message: '该项不能为空',trigger: 'change'}
           ],
         }
       };
@@ -155,6 +163,9 @@ export default {
       else {console.log('Error');
       console.log(this.healthyCondition)}
       })
+    },
+    validateCheckbox() {
+      this.$refs.HealthyForm.validateField('mustdata'); // 执行表单校验
     },
     resetForm(){
       this.$refs.HealthyForm.resetFields();

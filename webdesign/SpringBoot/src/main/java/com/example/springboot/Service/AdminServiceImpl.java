@@ -6,12 +6,20 @@ import com.example.springboot.Pojo.AdminPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdminServiceImpl {
     @Autowired
     AdminDao adminDao;
 
     public AdminPojo findAdminById(String id){return adminDao.selectById(id);}
+    public List<AdminPojo> findAll(){return adminDao.selectList(new QueryWrapper<>());}
+    public List<AdminPojo> findacademy(){
+        QueryWrapper<AdminPojo> wrapper=new QueryWrapper<>();
+        wrapper.eq("role","院级管理员");
+        return  adminDao.selectList(wrapper);
+    }
 
     public void addAdmin(String id,String name,String password,String role){
         adminDao.insert(new AdminPojo(id,name,password,role));

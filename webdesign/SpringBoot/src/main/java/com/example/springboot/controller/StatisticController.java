@@ -43,6 +43,7 @@ public class StatisticController {
             Long red = studentService.academyRedCount(academy) + teacherService.academyRedCount(academy);
             Long yellow = studentService.academyYellowCount(academy) + teacherService.academyYellowCount(academy);
             Long grey = studentService.academyGreyCount(academy) + teacherService.academyGreyCount(academy);
+            map.clear();
             map.put("green", String.valueOf(green));
             map.put("blue", String.valueOf(blue));
             map.put("red", String.valueOf(red));
@@ -56,6 +57,7 @@ public class StatisticController {
             Long red=studentService.RedCount()+teacherService.RedCount();
             Long yellow=studentService.YellowCount()+teacherService.YellowCount();
             Long grey=studentService.GreyCount()+teacherService.GreyCount();
+            map.clear();
             map.put("green",String.valueOf(green));
             map.put("blue",String.valueOf(blue));
             map.put("red",String.valueOf(red));
@@ -73,6 +75,7 @@ public class StatisticController {
             if(username.charAt(1)=='2') {
                 Long yes = studentService.academyYesCount(academy) + teacherService.academyYesCount(academy);
                 Long no = studentService.academyNoCount(academy) + teacherService.academyNoCount(academy);
+                map.clear();
                 map.put("yes", String.valueOf(yes));
                 map.put("no", String.valueOf(no));
                 return JSON.toJSONString(map);
@@ -80,6 +83,7 @@ public class StatisticController {
             else {
                 Long yes=studentService.YesCount()+teacherService.YesCount();
                 Long no=studentService.NoCount()+teacherService.NoCount();
+                map.clear();
                 map.put("yes",String.valueOf(yes));
                 map.put("no",String.valueOf(no));
                 return JSON.toJSONString(map);

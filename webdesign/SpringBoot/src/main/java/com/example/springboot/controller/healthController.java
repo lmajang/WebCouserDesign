@@ -92,6 +92,12 @@ public class healthController {
                         parameter.put("health", "yellow");
                     }
                     teacherService.updatedaycount(Tno, count);
+                    if(count<7){
+                        parameter.put("health", "yellow");
+                    }
+                    else{
+                        parameter.put("health", "red");
+                    }
                 }
             }
         }

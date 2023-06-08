@@ -1,9 +1,16 @@
 <template>
+  <div class="container">
   <div
-      ref="myChart"
-      id="myChart"
-      :style="{ width: '800px', height: '400px' }"
+      ref="ColorChart"
+      id="ColorChart"
+      :style="{ width: '800px', height: '300px' }"
   ></div>
+  <div
+      ref="DailyChart"
+      id="DailyChart"
+      :style="{ width: '800px', height: '300px' }"
+  ></div>
+  </div>
 </template>
 
 <script>
@@ -14,50 +21,87 @@ export default {
   data(){
     return {
       QRcodeColor:{
-        red:"",
-        green:"",
         blue:"",
+        green:"",
+        grey:"",
+        red:"",
+        yellow:"",
       },
       dailyclock:{
-        alreadyC:"",
-        noC:"",
+        yes:"",
+        no:"",
       }
     }
 },
   methods: {
-    getData() {
-      this.$ajax.post('data').then(response =>{
-
+     getColorData() {
+      this.$ajax.post('/healthstatistic',sessionStorage.getItem('no')).then(response =>{
+        this.QRcodeColor=response.data;
+        this.setColorEcharts();
+        console.log(this.QRcodeColor)
+      }).catch(error =>{
+        console.log(error)
       })
-    }
-  },
-  mounted(){
-  },
-  setup() {
-    // 通过 internalInstance.appContext.config.globalProperties 获取全局属性或方法
-    let internalInstance = getCurrentInstance();
-    let echarts = internalInstance.appContext.config.globalProperties.$echarts;
-
-    onMounted(() => {
-      const dom = document.getElementById('myChart');
-      const myChart = echarts.init(dom); // 初始化echarts实例
+    },
+    getClockData(){
+      this.$ajax.post('/dailystatistic',sessionStorage.getItem('no')).then(response =>{
+        console.log(response.data)
+        this.dailyclock=response.data;
+        this.setDailyChart();
+      }).catch(error =>{
+        console.log(error)
+      })
+    },
+    setColorEcharts(){
+     let myChart=this.$echarts.init(document.getElementById("ColorChart"),null,{
+       width:800,height:400});
       const option = {
+        title: {
+          text: '健康码情况',
+          left: 'center',
+        },
+        xAxis:{
+          data:['蓝码','绿码','灰码','红码','黄码']
+        },
+        yAxis:{
+        },
+        series: [
+          {
+            type:'bar',
+            data: [
+                Number(this.QRcodeColor.blue),
+                Number(this.QRcodeColor.green),
+                Number(this.QRcodeColor.grey),
+                Number(this.QRcodeColor.red),
+                Number(this.QRcodeColor.yellow),
+            ],
+          }
+        ]
+      };
+      // 设置实例参数
+      myChart.setOption(option);
+    },
+    setDailyChart(){
+      let myChart=this.$echarts.init(document.getElementById("DailyChart"),null,{
+        width:800,height:380});
+      const option = {
+        title: {
+          text: '今日打卡情况',
+          left: 'center',
+          top: 'center'
+        },
         series: [
           {
             type:'pie',
             data: [
               {
-                value: 335,
-                name: 'A'
+                value: Number(this.dailyclock.yes),
+                name: '已打卡'
               },
               {
-                value: 234,
-                name: 'B'
+                value: Number(this.dailyclock.no),
+                name: '未打卡'
               },
-              {
-                value: 1548,
-                name: 'C'
-              }
             ],
             radius: ['40%', '70%']
           }
@@ -65,13 +109,19 @@ export default {
       };
       // 设置实例参数
       myChart.setOption(option);
-    });
-    return {};
-  }
-
+    },
+  },
+  mounted(){
+    this.getColorData();
+    this.getClockData();
+  },
 }
 </script>
 
 <style scoped>
-
+.container{
+  position: absolute;
+  left:50%;
+  transform:translate(-50%);
+}
 </style>

@@ -108,16 +108,16 @@ public class AdminController {
     public String addteacher(HttpServletRequest request,@RequestBody Map map,
                              @RequestParam Map<String, String> parameter) {
         JSONObject json = new JSONObject(map);
-        String Tno= json.getString("TnoInput");
-        String Tidcard=json.getString("TidcardInput");
-        String Tname=json.getString("TnameInput");
-        String academy=json.getString("academyInput");
-        String role=json.getString("roleInput");
+        String Tno= json.getString("tno");
+        String Tidcard=json.getString("tidcard");
+        String Tname=json.getString("tname");
+        String academy=json.getString("academy");
+        String role=json.getString("role");
         String health="灰色";
         int daily=0;
         int daycount=0;
         try {
-            teacherService.addTeacher(Tname, Tidcard, Tno, academy, role, health, daily,daycount);
+            teacherService.addTeacher(Tno,Tname  ,Tidcard, academy, role, health, daily,daycount);
             parameter.put("message", "success");
             parameter.put("status", "200");
         }catch (Exception e){
@@ -132,17 +132,17 @@ public class AdminController {
     public String addstudent(HttpServletRequest request,@RequestBody Map map,
                              @RequestParam Map<String, String> parameter) {
         JSONObject json = new JSONObject(map);
-        String Sno= json.getString("SnoInput");
-        String Sidcard=json.getString("SidcardInput");
-        String major=json.getString("majorInput");
-        String Sname=json.getString("SnameInput");
-        String academy=json.getString("academyInput");
-        String class1=json.getString("classInput");
+        String Sno= json.getString("sno");
+        String Sidcard=json.getString("sidcard");
+        String major=json.getString("major");
+        String Sname=json.getString("sname");
+        String academy=json.getString("academy");
+        String class1=json.getString("class");
         String health="灰色";
         int daily=0;
         int daycount=0;
         try {
-            studentService.addStudent(Sname, Sidcard, Sno, academy, major,class1,health,daily,daycount);
+            studentService.addStudent(Sno,Sname, Sidcard, academy, major,class1,health,daily,daycount);
             parameter.put("message", "success");
             parameter.put("status", "200");
         }catch (Exception e){
@@ -157,7 +157,8 @@ public class AdminController {
     public String delteacher(HttpServletRequest request,@RequestBody Map map,
                              @RequestParam Map<String, String> parameter) {
         JSONObject json = new JSONObject(map);
-        String Tno= json.getString("TnoInput");
+        String Tno= json.getString("tno");
+        System.out.println(Tno);
         try {
             teacherService.delTeacher(Tno);
             parameter.put("message", "success");
@@ -174,7 +175,7 @@ public class AdminController {
     public String delstudent(HttpServletRequest request,@RequestBody Map map,
                              @RequestParam Map<String, String> parameter) {
         JSONObject json = new JSONObject(map);
-        String Sno = json.getString("SnoInput");
+        String Sno = json.getString("sno");
         try {
             studentService.delStudent(Sno);
             parameter.put("message", "success");
@@ -184,6 +185,21 @@ public class AdminController {
             parameter.put("status", "0");
         }
         return JSON.toJSONString(parameter);
+    }
+    @RequestMapping(value = "/admininformation", method = RequestMethod.POST)
+    @ResponseBody
+    public String admininformation (HttpServletRequest request, @RequestBody String id,
+                                @RequestParam Map < String, String > parameter){
+        String username = id.substring(0, id.length() - 1);
+
+            if (username.charAt(1) == '1'){
+                List<AdminPojo> result=adminService.findacademy();
+                return JSON.toJSONString(result);
+            }
+           else {
+               List<AdminPojo> result=adminService.findAll();
+               return JSON.toJSONString(result);
+            }
     }
         @RequestMapping(value = "/xiaojichange", method = RequestMethod.POST)
         @ResponseBody
@@ -202,7 +218,7 @@ public class AdminController {
             return JSON.toJSONString(parameter);
         }
 
-    @RequestMapping(value = "/yuanjijichang", method = RequestMethod.POST)
+    @RequestMapping(value = "/yuanjijichange", method = RequestMethod.POST)
     @ResponseBody
     public String yuanjichange (HttpServletRequest request, @RequestBody Map map,
                               @RequestParam Map < String, String > parameter){
@@ -224,10 +240,10 @@ public class AdminController {
     public String Studentchange (HttpServletRequest request, @RequestBody Map map,
                                 @RequestParam Map < String, String > parameter){
         JSONObject json = new JSONObject(map);
-        String Sno = json.getString("SnoInput");
-        String academy=json.getString("academyInput");
-        String major=json.getString("majorInput");
-        String class1=json.getString("classInput");
+        String Sno = json.getString("sno");
+        String academy=json.getString("academy");
+        String major=json.getString("major");
+        String class1=json.getString("class");
         try {
             studentService.updateStudent(Sno,academy,major,class1);
             parameter.put("message", "success");
@@ -244,8 +260,8 @@ public class AdminController {
     public String Teacherchange (HttpServletRequest request, @RequestBody Map map,
                                  @RequestParam Map < String, String > parameter){
         JSONObject json = new JSONObject(map);
-        String Tno = json.getString("TnoInput");
-        String academy=json.getString("academyInput");
+        String Tno = json.getString("tno");
+        String academy=json.getString("academy");
         try {
             teacherService.updateTeacher(Tno,academy);
             parameter.put("message", "success");
